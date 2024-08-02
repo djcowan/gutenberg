@@ -125,6 +125,8 @@ This Server Directive Processing provides several benefits:
 
 One of the key strengths of the Interactivity API is how it bridges the gap between server-side rendering and client-side interactivity. To do so, the global state and local context initialized on the server are also serialized and made available on the client, allowing the application to continue functioning and manipulating the DOM dynamically.
 
+After this initial server-side rendering, the Interactivity API's client-side JavaScript takes over. It hydrates the interactive elements, enabling dynamic updates and interactions without requiring full page reloads.
+
 Let's extend the example to include a button that the user can click to add a new fruit to the list:
 
 ```php
@@ -190,12 +192,13 @@ When the user clicks the "Add Fruit" button:
     </ul>
     ```
 
-## Conclusion
+### Conclusion
 
-This example demonstrates the seamless transition from server-side rendering to client-side interactivity:
+This seamless transition from server-rendered content to client-side interactivity provides the best of both worlds: fast initial loads and dynamic user interfaces.
 
 -   The initial list of fruits is rendered on the server using PHP.
 -   The global state or local context is initialized on the server and made available to the client.
+-   The user ... XXXX
 -   The button's click behavior is defined using a directive in the HTML.
 -   The actual functionality of adding a fruit is implemented in JavaScript.
 -   When a new fruit is added, the DOM updates automatically to reflect the new state.
@@ -203,8 +206,6 @@ This example demonstrates the seamless transition from server-side rendering to 
 With the Interactivity API, the transition from server to client is smooth and transparent. The directives you define on the server, the initial global state or local context, and the client-side behavior all form part of the same ecosystem. This unified approach simplifies development, improves maintainability, and provides a better developer experience when creating interactive WordPress blocks.
 
 ---
-
-After this initial server-side rendering, the Interactivity API's client-side JavaScript takes over. It hydrates the interactive elements, enabling dynamic updates and interactions without requiring full page reloads. This seamless transition from server-rendered content to client-side interactivity provides the best of both worlds: fast initial loads and dynamic user interfaces.
 
 ## Working with derived state
 
