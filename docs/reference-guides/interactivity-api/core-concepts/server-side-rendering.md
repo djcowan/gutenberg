@@ -55,7 +55,7 @@ $context = array(
 );
 ?>
 <ul <?php echo wp_interactivity_data_wp_context( $context ); ?>>
-	...
+  ...
 </ul>
 ```
 
@@ -207,6 +207,35 @@ With the Interactivity API, the transition from server to client is smooth and t
 
 ---
 
+-   Change example to `actions.addMango`.
+-   Derived state
+    -   Add example of static derived state
+        -   For state
+        -   For context
+    -   Add fruit translations
+        ```php
+        wp_interactivity_state('..', [
+          'fruits' => [__('Apple'), __('Banana'), __('Cherry')]
+        ]);
+        ```
+    -   Add also translation for the frontend
+        ```php
+        wp_interactivity_state('..', [
+          'fruits' => ['apple', 'banana', 'cherry'],
+          'fruitNames' => [
+            'apple'  => __('Apple'),
+            'banana' => __('Banana'),
+            'cherry' => __('Cherry'),
+            'mango'  => __('Mango'),
+          ],
+          'fruitName' => function() {
+            $state   = wp_interactivity_state();
+            $context = wp_interactivity_get_context();
+            return $state['fruitNames'][ $context['item'] ];
+          }
+        ]);
+        ```
+
 ## Working with derived state
 
 ## What happens if I don't initialize the global state on the client
@@ -215,4 +244,4 @@ With the Interactivity API, the transition from server to client is smooth and t
 
 ## Defining the global state once
 
-## Classic themes
+## Classic themes (`wp_interactivity_process_directives`)
