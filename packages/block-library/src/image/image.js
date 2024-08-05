@@ -15,6 +15,8 @@ import {
 	__experimentalToolsPanelItem as ToolsPanelItem,
 	__experimentalUseCustomUnits as useCustomUnits,
 	Placeholder,
+	BaseControl,
+	Button,
 } from '@wordpress/components';
 import { useViewportMatch } from '@wordpress/compose';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -37,7 +39,8 @@ import { getFilename } from '@wordpress/url';
 import { switchToBlockType, store as blocksStore } from '@wordpress/blocks';
 import { crop, overlayText, upload } from '@wordpress/icons';
 import { store as noticesStore } from '@wordpress/notices';
-import { store as coreStore } from '@wordpress/core-data';
+import { store as coreStore, useEntityRecord } from '@wordpress/core-data';
+import { store as uploadStore } from '@wordpress/upload-media';
 
 /**
  * Internal dependencies
@@ -46,6 +49,7 @@ import { unlock } from '../lock-unlock';
 import { createUpgradedEmbedBlock } from '../embed/util';
 import { isExternalImage } from './edit';
 import { Caption } from '../utils/caption';
+import { ApprovalDialog } from './approvalDialog';
 
 /**
  * Module constants
@@ -354,6 +358,55 @@ export default function Image( {
 			setIsEditingImage( false );
 		}
 	}, [ isSingleSelected ] );
+
+	const { optimizeExistingItem } = useDispatch( uploadStore );
+	const { record: attachment } = useEntityRecord(
+		'postType',
+		'attachment',
+		id
+	);
+	const isUploading = useSelect(
+		( select ) =>
+			id ? select( uploadStore ).isUploadingById( id ) : false,
+		[ id ]
+	);
+
+	const onCompressImage = ( evt ) => {
+		void optimizeExistingItem( {
+			id,
+			url: attachment.source_url || url,
+			fileName: attachment.filename || undefined,
+			onSuccess: ( [ media ] ) => {
+				setAttributes( {
+					url: media.url,
+					id: media.id,
+				} );
+
+				void createSuccessNotice(
+					__( 'File successfully optimized.' ),
+					{
+						type: 'snackbar',
+					}
+				);
+			},
+			onError: ( err ) => {
+				void createErrorNotice(
+					sprintf(
+						/* translators: %s: error message */
+						__( 'There was an error compressing the file: %s' ),
+						err.message
+					),
+					{
+						type: 'snackbar',
+					}
+				);
+			},
+			additionalData: {
+				post: attachment.post,
+			},
+			startTime: evt.timeStamp,
+		} );
+	};
 
 	const canEditImage = id && naturalWidth && naturalHeight && imageEditing;
 	const allowCrop = isSingleSelected && canEditImage && ! isEditingImage;
@@ -804,6 +857,31 @@ export default function Image( {
 					}
 				/>
 			</InspectorControls>
+			{ window.__experimentalMediaProcessing && attachment ? (
+				<>
+					<InspectorControls group="advanced">
+						<BaseControl>
+							<BaseControl.VisualLabel>
+								{ __( 'Compress image' ) }
+							</BaseControl.VisualLabel>
+							<p>
+								{ __(
+									'Maybe you can make the file a bit smaller?'
+								) }
+							</p>
+							<Button
+								variant="primary"
+								onClick={ onCompressImage }
+								accessibleWhenDisabled
+								disabled={ isUploading }
+							>
+								{ __( 'Optimize' ) }
+							</Button>
+						</BaseControl>
+						<ApprovalDialog id={ id } />
+					</InspectorControls>
+				</>
+			) : null }
 		</>
 	);
 
