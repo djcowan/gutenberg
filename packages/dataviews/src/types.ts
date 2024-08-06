@@ -49,7 +49,7 @@ export type Operator =
 
 export type ItemRecord = Record< string, unknown >;
 
-export type FieldType = 'text' | 'integer';
+export type FieldType = 'text' | 'integer' | 'datetime';
 
 export type ValidationContext = {
 	elements?: Option[];
