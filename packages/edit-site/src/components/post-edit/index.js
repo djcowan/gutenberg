@@ -48,7 +48,7 @@ function PostEditForm( { postType, postId } ) {
 	const form = {
 		visibleFields: [ 'title', 'author', 'date' ],
 	};
-	const [ edits, setEdits ] = useState( {} );
+	const [ edits, setEdits ] = useState( initialEdits );
 	const itemWithEdits = useMemo( () => {
 		return {
 			...initialEdits,
@@ -70,7 +70,6 @@ function PostEditForm( { postType, postId } ) {
 				...edits,
 			} );
 		}
-		setEdits( {} );
 	};
 
 	const isUpdateDisabled = ! isItemValid( itemWithEdits, fields, form );
