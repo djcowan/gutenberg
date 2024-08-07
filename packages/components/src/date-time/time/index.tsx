@@ -61,6 +61,7 @@ export function TimePicker( {
 	currentTime,
 	onChange,
 	dateOrder: dateOrderProp,
+	withLabels = true,
 }: TimePickerProps ) {
 	const [ date, setDate ] = useState( () =>
 		// Truncate the date at the minutes, see: #15495.
@@ -214,12 +215,14 @@ export function TimePicker( {
 			className="components-datetime__time" // Unused, for backwards compatibility.
 		>
 			<Fieldset>
-				<BaseControl.VisualLabel
-					as="legend"
-					className="components-datetime__time-legend" // Unused, for backwards compatibility.
-				>
-					{ __( 'Time' ) }
-				</BaseControl.VisualLabel>
+				{ withLabels && (
+					<BaseControl.VisualLabel
+						as="legend"
+						className="components-datetime__time-legend" // Unused, for backwards compatibility.
+					>
+						{ __( 'Time' ) }
+					</BaseControl.VisualLabel>
+				) }
 				<HStack
 					className="components-datetime__time-wrapper" // Unused, for backwards compatibility.
 				>
@@ -236,12 +239,14 @@ export function TimePicker( {
 				</HStack>
 			</Fieldset>
 			<Fieldset>
-				<BaseControl.VisualLabel
-					as="legend"
-					className="components-datetime__time-legend" // Unused, for backwards compatibility.
-				>
-					{ __( 'Date' ) }
-				</BaseControl.VisualLabel>
+				{ withLabels && (
+					<BaseControl.VisualLabel
+						as="legend"
+						className="components-datetime__time-legend" // Unused, for backwards compatibility.
+					>
+						{ __( 'Date' ) }
+					</BaseControl.VisualLabel>
+				) }
 				<HStack
 					className="components-datetime__time-wrapper" // Unused, for backwards compatibility.
 				>
