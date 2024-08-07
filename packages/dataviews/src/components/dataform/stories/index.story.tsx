@@ -31,6 +31,15 @@ const fields = [
 		type: 'datetime' as const,
 	},
 	{
+		id: 'birthdate',
+		label: 'Date as options',
+		type: 'datetime' as const,
+		elements: [
+			{ value: '1970-02-23T12:00:00', label: "Jane's birth date" },
+			{ value: '1950-02-23T12:00:00', label: "John's birth date" },
+		],
+	},
+	{
 		id: 'author',
 		label: 'Author',
 		type: 'integer' as const,
@@ -57,10 +66,18 @@ export const Default = () => {
 		author: 1,
 		status: 'draft',
 		date: '2021-01-01T12:00:00',
+		birthdate: '1950-02-23T12:00:00',
 	} );
 
 	const form = {
-		visibleFields: [ 'title', 'order', 'author', 'status', 'date' ],
+		visibleFields: [
+			'title',
+			'order',
+			'author',
+			'status',
+			'date',
+			'birthdate',
+		],
 	};
 
 	return (
