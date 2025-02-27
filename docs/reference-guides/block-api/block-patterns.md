@@ -9,8 +9,10 @@ Block Patterns are predefined block layouts available from the patterns tab of t
 The editor comes with several core block patterns. Theme and plugin authors can register additional custom block patterns using the `register_block_pattern` helper function.
 
 The `register_block_pattern` helper function receives two arguments.
--   `title`: A machine-readable title with a naming convention of `namespace/title`.
+-   `name`: A machine-readable name with a naming convention of `namespace/pattern-name`.
 -	`properties`: An array describing properties of the pattern.
+
+Note: A pattern name can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the unique namespace prefix. It must begin with a letter.
 
 The properties available for block patterns are:
 
